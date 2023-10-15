@@ -96,9 +96,4 @@ public class PathFinderServiceImpl implements PathFinderService {
                         (p.getStart().equals(section.getEnd()) && p.getEnd().equals(section.getStart()))
         );
     }
-
-    @Override
-    public int add(int a, int b) {
-        return a+b;
-    }
 }

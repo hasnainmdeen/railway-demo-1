@@ -10,6 +10,4 @@ public interface PathFinderService {
     public boolean checkConflicts(CheckConflictRequest request);
 
     public boolean sectionExistInPath(List<TrackSection> path, TrackSection section);
-
-    public int add (int a, int b);
 }
