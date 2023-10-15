@@ -4,7 +4,7 @@
 //import org.junit.jupiter.api.AfterAll;
 //import org.junit.jupiter.api.BeforeAll;
 //import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.TestController;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
 //
@@ -44,7 +44,7 @@
 //    /**
 //     * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldGet} successfully.
 //     */
-//    @Test
+//    @TestController
 //    @DisplayName("Basic test for GET request")
 //    void testGetRequest() {
 //        ResponseEntity responseEntity = controller.helloWorldGet(INPUT_NAME);
@@ -58,7 +58,7 @@
 //    /**
 //     * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldPost} successfully.
 //     */
-//    @Test
+//    @TestController
 //    @DisplayName("Basic test for POST request")
 //    void testPostRequest() {
 //        ResponseEntity responseEntity = controller.helloWorldPost(INPUT_NAME);
