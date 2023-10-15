@@ -1,5 +1,7 @@
 package com.aws.codestar.projecttemplates.controller;
 
+import com.aws.codestar.projecttemplates.model.CheckConflictRequest;
+import com.aws.codestar.projecttemplates.model.CheckConflictResponse;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,11 @@ public class HelloWorldController {
         return ResponseEntity.ok(createResponse(name));
     }
 
-    @PostMapping("/test")
-    //@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity helloWorldPost(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return ResponseEntity.ok(createResponse(name));
+    //@PostMapping("/test")
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<CheckConflictResponse> helloWorldPost(@RequestBody CheckConflictRequest request) {
+        return ResponseEntity.ok(new CheckConflictResponse(true));
+        //return ResponseEntity.ok(createResponse(name));
     }
 
     private String createResponse(String name) {
