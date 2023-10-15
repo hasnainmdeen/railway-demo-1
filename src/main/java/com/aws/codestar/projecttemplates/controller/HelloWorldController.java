@@ -2,7 +2,9 @@ package com.aws.codestar.projecttemplates.controller;
 
 import com.aws.codestar.projecttemplates.model.CheckConflictRequest;
 import com.aws.codestar.projecttemplates.model.CheckConflictResponse;
+import com.aws.codestar.projecttemplates.service.PathFinderServiceImpl;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/")
 public class HelloWorldController {
+
+
+    @Autowired
+    private PathFinderServiceImpl pathFinderServiceImpl;
 
     private static final String MESSAGE_FORMAT = "Hello %s!";
 
