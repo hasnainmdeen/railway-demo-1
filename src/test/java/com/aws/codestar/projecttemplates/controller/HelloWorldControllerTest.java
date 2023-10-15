@@ -11,15 +11,15 @@
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //
 ///**
-// * Tests for {@link HelloWorldController}. Modify the tests in order to support your use case as you build your project.
+// * Tests for {@link RailwayController}. Modify the tests in order to support your use case as you build your project.
 // */
-//@DisplayName("Tests for HelloWorldController")
+//@DisplayName("Tests for RailwayController")
 //public class HelloWorldControllerTest {
 //
 //    private static final String EXPECTED_RESPONSE_VALUE = "Hello AWS CodeStar!";
 //    private static final String INPUT_NAME = "AWS CodeStar";
 //
-//    private final HelloWorldController controller = new HelloWorldController();
+//    private final RailwayController controller = new RailwayController();
 //
 //    /**
 //     * Initializing variables before we run the tests.
@@ -42,7 +42,7 @@
 //    }
 //
 //    /**
-//     * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldGet} successfully.
+//     * Basic test to verify the result obtained when calling {@link RailwayController#helloWorldGet} successfully.
 //     */
 //    @TestController
 //    @DisplayName("Basic test for GET request")
@@ -56,7 +56,7 @@
 //    }
 //
 //    /**
-//     * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldPost} successfully.
+//     * Basic test to verify the result obtained when calling {@link RailwayController#helloWorldPost} successfully.
 //     */
 //    @TestController
 //    @DisplayName("Basic test for POST request")

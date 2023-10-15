@@ -1,104 +1,127 @@
-Welcome to the AWS CodeStar sample web service
-==============================================
+# Railway Interlocking API
 
-This sample code helps get you started with a simple Java web service
-deployed by AWS Elastic Beanstalk and AWS CloudFormation.
+This API provides functionality to check for conflicts in railway tracks based on a given station graph and routes.
 
-What's Here
------------
+## `check_conflicts` Endpoint
 
-This sample includes:
+### Description
 
-* README.md - this file
-* .ebextensions/ - this directory contains configuration files that
-  allows AWS Elastic Beanstalk to deploy your Java service
-* buildspec.yml - this file is used by AWS CodeBuild to build the web
-  service
-* pom.xml - this file is the Maven Project Object Model for the web service
-* src/main - this directory contains your Java service source files
-* src/test - this directory contains your Java service unit test files
-* template.yml - this file contains the description of AWS resources used by AWS
-  CloudFormation to deploy your infrastructure
-* template-configuration.json - this file contains the project ARN with placeholders used for tagging resources with the project ID
+Checks whether a given route conflicts with any occupied routes in the station.
 
-Getting Started
----------------
+The method assumes that train can travel in any direction.
+The `PathFinderService` is injected into the `RailwayController`.
 
-These directions assume you want to develop on your local computer, and not
-from the Amazon EC2 instance itself. If you're on the Amazon EC2 instance, the
-virtual environment is already set up for you, and you can start working on the
-code.
+The program works as follows:
+1. We first find the path for the route that we need to check
+2. If we can not find the path for the given route we return false
+3. If we found the path for the given route, we do the following steps
+    1. We filter out the occupied routes from the given list of routes
+    2. We then find the path for each occupied route
+    3. Finally, we check if the path for the given route overlaps with the path of any occupied route
+    4. If we find an overlap, it means we detected a conflict and return `true`
+    5. Else, we return `false` because path for the given route does not overlap with the path of any occupied routes.
 
-To work on the sample code, you'll need to clone your project's repository to your
-local computer. If you haven't, do that first. You can find instructions in the AWS CodeStar user guide at https://docs.aws.amazon.com/codestar/latest/userguide/getting-started.html#clone-repo.
+In order to traverse the station graph, we have implemented a method named `findPath` which uses the BFS algorithm to traverse the station graph
+We also have method named `checkConflicts` that checks for the conflict
+Another method `sectionExistInPath` checks weather the given section overlaps with a path
 
-1. Install maven.  See https://maven.apache.org/install.html for details.
+### Request
 
-2. Install tomcat.  See https://tomcat.apache.org/tomcat-8.0-doc/setup.html for
-   details.
+- **URL**: `/railway/check_conflicts`
+- **Method**: `POST`
+- **Content-Type**: `application/json`
 
-3. Build the service.
+#### Body:
 
-        $ mvn -f pom.xml compile
-        $ mvn -f pom.xml package
+```json
+{
+	"station_graph": [
+		{
+			"start": "Station West",
+			"end": "Entry Signal West"
+		},
+		{
+			"start": "Entry Signal West",
+			"end": "Point 1"
+		},
+		{
+			"start": "Point 1",
+			"end": "Exit Signal West 1"
+		},
+		{
+			"start": "Point 1",
+			"end": "Exit Signal West 2"
+		},
+		{
+			"start": "Exit Signal West 1",
+			"end": "Exit Signal East 1"
+		},
+		{
+			"start": "Exit Signal West 2",
+			"end": "Exit Signal East 2"
+		},
+		{
+			"start": "Exit Signal East 1",
+			"end": "Point 2"
+		},
+		{
+			"start": "Exit Signal East 2",
+			"end": "Point 2"
+		},
+		{
+			"start": "Point 2",
+			"end": "Entry Signal East"
+		},
+		{
+			"start": "Entry Signal East",
+			"end": "Station East"
+		}
+	],
+	"routes": [
+		{
+			"start": "Entry Signal West",
+			"end": "Exit Signal East 1",
+			"occupied": false
+		},
+		{
+			"start": "Entry Signal West",
+			"end": "Exit Signal East 2",
+			"occupied": false
+		},
+		{
+			"start": "Exit Signal East 1",
+			"end": "Station East",
+			"occupied": false
+		},
+		{
+			"start": "Exit Signal East 2",
+			"end": "Station East",
+			"occupied": false
+		},
+		{
+			"start": "Entry Signal East",
+			"end": "Exit Signal West 1",
+			"occupied": false
+		},
+		{
+			"start": "Entry Signal East",
+			"end": "Exit Signal West 2",
+			"occupied": false
+		},
+		{
+			"start": "Exit Signal West 1",
+			"end": "Station West",
+			"occupied": true
+		},
+		{
+			"start": "Exit Signal West 2",
+			"end": "Station West",
+			"occupied": true
+		}
+	],
+	"check_route": {
+		"start": "Point 1",
+		"end": "Exit Signal West 2"
+	}
+}
 
-4. Copy the built service to the Tomcat webapp directory.  The actual
-   location of that directory will vary depending on your platform and
-   installation.
-
-        $ cp target/ROOT.war <tomcat webapp directory>
-
-4. Restart your tomcat server
-
-5. Open http://127.0.0.1:8080/ in a web browser to view your service.
-
-What Do I Do Next?
-------------------
-
-Once you have a virtual environment running, you can start making changes to
-the sample Java web service. We suggest making a small change to
-/src/main/java/com/aws/codestar/projecttemplates/controller/HelloWorldController.java
-first, so you can see how changes pushed to your project's repository are automatically
-picked up and deployed to the Amazon EC2 instance by AWS Elastic Beanstalk. (You can
-watch the progress on your project dashboard.) Once you've seen how that works, start
-developing your own code, and have fun!
-
-To run your tests locally, go to the root directory of the sample code and run the
-`mvn clean compile test` command, which AWS CodeBuild also runs through your `buildspec.yml` file.
-
-To test your new code during the release process, modify the existing tests or add tests
-to the tests directory. AWS CodeBuild will run the tests during the build stage of your
-project pipeline. You can find the test results in the AWS CodeBuild console.
-
-Learn more about Maven's [Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
-
-Learn more about AWS CodeBuild and how it builds and tests your application here:
-https://docs.aws.amazon.com/codebuild/latest/userguide/concepts.html
-
-Learn more about AWS CodeStar by reading the user guide.  Ask questions or make
-suggestions on our forum.
-
-User Guide: https://docs.aws.amazon.com/codestar/latest/userguide/welcome.html
-
-Forum: https://forums.aws.amazon.com/forum.jspa?forumID=248
-
-How Do I Add Template Resources to My Project?
-------------------
-
-To add AWS resources to your project, you'll need to edit the `template.yml`
-file in your project's repository. You may also need to modify permissions for
-your project's worker roles. After you push the template change, AWS CodeStar
-and AWS CloudFormation provision the resources for you.
-
-See the AWS CodeStar user guide for instructions to modify your template:
-https://docs.aws.amazon.com/codestar/latest/userguide/how-to-change-project.html#customize-project-template
-
-What Should I Do Before Running My Project in Production?
-------------------
-
-AWS recommends you review the security best practices recommended by the framework
-author of your selected sample application before running it in production. You
-should also regularly review and apply any available patches or associated security
-advisories for dependencies used within your application.
-
-Best Practices: https://docs.aws.amazon.com/codestar/latest/userguide/best-practices.html?icmpid=docs_acs_rm_sec
