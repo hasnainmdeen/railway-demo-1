@@ -25,7 +25,7 @@ public class HelloWorldController {
         return ResponseEntity.ok(createResponse(name));
     }
 
-    @RequestMapping(path = "/check_conflicts", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping("/check_conflicts")
     public ResponseEntity<CheckConflictResponse> checkConflicts(@RequestBody CheckConflictRequest request) {
         boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
         return ResponseEntity.ok(new CheckConflictResponse(isPathValid));
