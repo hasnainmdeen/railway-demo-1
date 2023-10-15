@@ -29,7 +29,7 @@ public class HelloWorldController {
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<CheckConflictResponse> helloWorldPost(@RequestBody CheckConflictRequest request) {
         //return ResponseEntity.ok(createResponse(name));
-        //boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
+        boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
         return ResponseEntity.ok(new CheckConflictResponse(true));
     }
 

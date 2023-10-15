@@ -3,6 +3,7 @@ package com.aws.codestar.projecttemplates.service;
 import com.aws.codestar.projecttemplates.model.CheckConflictRequest;
 import com.aws.codestar.projecttemplates.model.Route;
 import com.aws.codestar.projecttemplates.model.TrackSection;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+@Service
 public class PathFinderServiceImpl implements PathFinderService {
 
     /*
