@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Basic Spring web service controller that handles all GET requests.
  */
 @RestController
-@RequestMapping("/railway")
+@RequestMapping("/")
 public class HelloWorldController {
 
     @Autowired
@@ -25,7 +25,8 @@ public class HelloWorldController {
         return ResponseEntity.ok(createResponse(name));
     }
 
-    @PostMapping("/check_conflicts")
+    //@PostMapping("/check_conflicts")
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<CheckConflictResponse> checkConflicts(@RequestBody CheckConflictRequest request) {
         boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
         return ResponseEntity.ok(new CheckConflictResponse(isPathValid));
