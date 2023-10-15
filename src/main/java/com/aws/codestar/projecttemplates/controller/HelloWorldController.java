@@ -1,14 +1,12 @@
 package com.aws.codestar.projecttemplates.controller;
 
+import com.aws.codestar.projecttemplates.model.CheckConflictRequest;
 import com.aws.codestar.projecttemplates.model.CheckConflictResponse;
 import com.aws.codestar.projecttemplates.service.PathFinderServiceImpl;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Basic Spring web service controller that handles all GET requests.
@@ -28,10 +26,10 @@ public class HelloWorldController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CheckConflictResponse> helloWorldPost(@RequestParam(value = "name", defaultValue = "World") String name) {
+    public ResponseEntity<CheckConflictResponse> helloWorldPost(@RequestBody CheckConflictRequest request) {
         //return ResponseEntity.ok(createResponse(name));
         boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
-        return ResponseEntity.ok(new CheckConflictResponse(isPathValid));
+        return ResponseEntity.ok(new CheckConflictResponse(true));
     }
 
     private String createResponse(String name) {
