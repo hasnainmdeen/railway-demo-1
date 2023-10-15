@@ -29,7 +29,7 @@ public class HelloWorldController {
     public ResponseEntity helloWorldPost(@RequestBody CheckConflictRequest request) {
         //return ResponseEntity.ok(createResponse(name));
         boolean isPathValid = pathFinderServiceImpl.checkConflicts(request);
-        return ResponseEntity.ok(new CheckConflictResponse(isPathValid));
+        return ResponseEntity.ok(new CheckConflictResponse(false));
     }
 
     private String createResponse(String name) {
